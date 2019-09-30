@@ -1,137 +1,102 @@
-<!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<style>
-canvas {
-    border:1px solid #d3d3d3;
-    background-color: #f1f1f1;
-}
-</style>
-</head>
-<body onload="startGame()">
-<script>
-
-var myGamePiece;
-var myObstacles = [];
-var myScore;
-
-function startGame() {
-    myGamePiece = new component(30, 30, "red", 10, 120);
-    myGamePiece.gravity = 0.05;
-    myScore = new component("30px", "Consolas", "black", 280, 40, "text");
-    myGameArea.start();
-}
-
-var myGameArea = {
-    canvas : document.createElement("canvas"),
-    start : function() {
-        this.canvas.width = 480;
-        this.canvas.height = 270;
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.frameNo = 0;
-        this.interval = setInterval(updateGameArea, 20);
-        },
-    clear : function() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-}
-
-function component(width, height, color, x, y, type) {
-    this.type = type;
-    this.score = 0;
-    this.width = width;
-    this.height = height;
-    this.speedX = 0;
-    this.speedY = 0;    
-    this.x = x;
-    this.y = y;
-    this.gravity = 0;
-    this.gravitySpeed = 0;
-    this.update = function() {
-        ctx = myGameArea.context;
-        if (this.type == "text") {
-            ctx.font = this.width + " " + this.height;
-            ctx.fillStyle = color;
-            ctx.fillText(this.text, this.x, this.y);
-        } else {
-            ctx.fillStyle = color;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-        }
-    }
-    this.newPos = function() {
-        this.gravitySpeed += this.gravity;
-        this.x += this.speedX;
-        this.y += this.speedY + this.gravitySpeed;
-        this.hitBottom();
-    }
-    this.hitBottom = function() {
-        var rockbottom = myGameArea.canvas.height - this.height;
-        if (this.y > rockbottom) {
-            this.y = rockbottom;
-            this.gravitySpeed = 0;
-        }
-    }
-    this.crashWith = function(otherobj) {
-        var myleft = this.x;
-        var myright = this.x + (this.width);
-        var mytop = this.y;
-        var mybottom = this.y + (this.height);
-        var otherleft = otherobj.x;
-        var otherright = otherobj.x + (otherobj.width);
-        var othertop = otherobj.y;
-        var otherbottom = otherobj.y + (otherobj.height);
-        var crash = true;
-        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
-            crash = false;
-        }
-        return crash;
-    }
-}
-
-function updateGameArea() {
-    var x, height, gap, minHeight, maxHeight, minGap, maxGap;
-    for (i = 0; i < myObstacles.length; i += 1) {
-        if (myGamePiece.crashWith(myObstacles[i])) {
-            return;
-        } 
-    }
-    myGameArea.clear();
-    myGameArea.frameNo += 1;
-    if (myGameArea.frameNo == 1 || everyinterval(150)) {
-        x = myGameArea.canvas.width;
-        minHeight = 20;
-        maxHeight = 200;
-        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
-        minGap = 50;
-        maxGap = 200;
-        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-        myObstacles.push(new component(10, height, "green", x, 0));
-        myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
-    }
-    for (i = 0; i < myObstacles.length; i += 1) {
-        myObstacles[i].x += -1;
-        myObstacles[i].update();
-    }
-    myScore.text="SCORE: " + myGameArea.frameNo;
-    myScore.update();
-    myGamePiece.newPos();
-    myGamePiece.update();
-}
-
-function everyinterval(n) {
-    if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
-    return false;
-}
-
-function accelerate(n) {
-    myGamePiece.gravity = n;
-}
-</script>
-<br>
-<button onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">ACCELERATE</button>
-<p>Use the ACCELERATE button to stay in the air</p>
-<p>See  ya!</p>
-</body>
+    <header>
+        <title>Rethink Loading</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link href="https://fonts.googleapis.com/css?family=Architects+Daughter&display=swap" rel="stylesheet">
+    </header>
+    <body>
+        <div class="nav">
+            <ul style="list-style: none;padding: 0px; margin: 0px;">
+                <li>CONTENT
+                </li>
+                <li><a href="#about">About This Page</a>
+                </li>
+                <li><a href="#proposal">Proposal</a>
+                </li>
+                <li><a href="#outcome">Outcome</a>
+                </li>
+                <li><a href="#client">Client Engagement</a>
+                </li>
+                <li><a href="#future">Future Development</a>
+                </li>
+                <li><a href="#funding">Funding</a>
+                </li>
+                <li><a href="#contact">Contact</a>
+                </li>
+             </ul>
+        </div>
+        <!-- About Me section start -->
+        <div class="main">
+        <div class="section" id="about">
+            <h1><span>About This Page</span></h1>
+            <p>
+                An understanding of loading is fundamental to the efficiency and safety of any structure, Although limited by values stated in design standards, geometry and definition of load type are variables that is only as accurate as the coordination between the client and the design team. An instant would be room loading, at early design stage overly conservatve loading are assumed due to uncertianty. Both the clients and the design team would benefit from having previous projects data when defining loads.
+            </p>
+        </div>
+        <!-- About section start -->
+        <div class="section" id="proposal">
+            <h1><span>Proposal</span></h1>
+            <p>The aim of the project is to evaluate loads in use. The proposed method is to first track down the type of building use to be evaluated, then define the loads within those projets that are not clearly definded by design standards. With that clearly defined, we can focus on reseaching into all the BH projects in the relevant type of building use. Within all the projects, we can perform an empirical study, evaluating the actual loading in use.
+            </p>
+        </div>
+            
+        <div class="section" id="outcome">
+            <h1><span>Outcome</span></h1>
+            <li>Realise check on loading we design to.</li>
+            <li>Data to support our statements in loading negociation.</li>
+            <li>More accurate design, benefiting client and environment.</li>
+        </div>
+        <!-- My Skills section end -->
+        <!-- Schedule section start -->
+        <div class="section" id="client">
+            <h1><span>Client Engagement</span></h1>
+            <P>By showing our motivation to self-evaluate the accuracy of our design in pursuit of outcome driven design, our clients can be certian that we have better insight than our competitors, with their interest in mind.</P>
+        </div>
+        <div class="section" id="future">
+            <h1><span>Future Development</span></h1>
+            <p>This project aimed to be used as deisgn information, but data will be prepared as the foundation for future technology development in mind. Carefully selected porject features and related loadings can be used to train up a machine learning AI.</p>
+        </div>
+        <div class="section" id="funding">
+            <h1><span>Funding</span></h1>
+            <table>
+                <tr id="block">
+                    <th>Group</th>
+                    <th>Grade</th>
+                    <th>Hours/month</th>
+                    <th>No. of Months</th>
+                </tr>
+                <tr>
+                    <th>Leeds Structure</th>
+                    <th>Engineer</th>
+                    <th class="selected">30</th>
+                    <th class="selected">2</th>
+                </tr>
+                <tr>
+                    <th>/</th>
+                    <th>/</th>
+                    <th>/</th>
+                    <th>/</th>
+                </tr>
+                
+                <tr>
+                    <th>/</th>
+                    <th>/</th>
+                    <th>/</th>
+                    <th>/</th>
+                </tr>
+            </table>
+        </div>
+        <div class="section" id="contact">
+            <h1><span>Contact</span></h1>
+            <p>Give me some ideas! Contact me @ marvin.suen@burohappold.com</p>
+        </div>
+                <!-- My Schedule section end -->
+        <div class="copyright">
+            &copy; 2019 Rethink Loading. All rights reserved.
+        </div>
+        <div>
+        </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
 </html>
